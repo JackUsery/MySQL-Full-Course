@@ -441,7 +441,108 @@ FROM transactions;
 SELECT CONCAT(first_name, last_name) AS "Full Name" -- give it a name
 FROM employees; -- CONCAT first_name, last_name
 
--- LOGICAL OPERATORS: AND, OR, NOT
+-- LOGICAL OPERATORS: AND, OR, NOT, between, in
 ALTER TABLE employees
 ADD COLUMN job VARCHAR(25) AFTER hourly_pay; -- ADD COLUME job VARCHAR(25) AFTER hourly_pay
 SELECT * FROM employees; -- VIEW ALL THE CONTENT OF THE TABLE
+
+UPDATE employees
+SET job = "manager"
+WHERE employee_id = 1; -- UPDATE job = "cashier" WHERE employee_id = 1
+
+UPDATE employees
+SET job = "cashier"
+WHERE employee_id = 2; -- UPDATE job = "cashier" WHERE employee_id = 2
+
+UPDATE employees
+SET job = "cook"
+WHERE employee_id = 3; -- UPDATE job = "cashier" WHERE employee_id = 3
+
+UPDATE employees
+SET job = "cook"
+WHERE employee_id = 4; -- UPDATE job = "cashier" WHERE employee_id = 4
+
+UPDATE employees
+SET job = "asst. manager"
+WHERE employee_id = 5; -- UPDATE job = "cashier" WHERE employee_id = 5
+
+UPDATE employees
+SET job = "janitor"
+WHERE employee_id = 6; -- UPDATE job = "cashier" WHERE employee_id = 6
+
+-- AND OPERATOR
+SELECT *
+FROM employees
+WHERE hire_date < "2023-01-5"; -- VIEW hire_date < "2023-01-5"
+
+SELECT *
+FROM employees
+WHERE hire_date < "2023-01-5" AND job = "cook"; -- VIEW hire_date < "2023-01-5" AND job = "cook"
+
+-- OR OPERATOR
+SELECT *
+FROM employees
+WHERE job = "cook" OR job = "cashier"; -- VIEW job = "cook" OR job = "cashier"
+
+-- NOT OPERATOR
+SELECT *
+FROM employees
+WHERE NOT job = "manager"; -- VIEW NOT job = "manager"
+
+-- combine logical operators
+SELECT *
+FROM employees
+WHERE NOT job = "manager" AND NOT job = "asst. manager"; -- VIEW NOT job = "manager" AND NOT job = "asst. manager"
+
+-- BETWEEN OPERATOR
+SELECT *
+FROM employees
+WHERE hire_date BETWEEN "2023-01-04" AND "2023-01-07"; -- VIEW hire_date BETWEEN "2023-01-04" AND "2023-01-07"
+
+-- IN OPERATOR
+SELECT *
+FROM employees
+WHERE job IN ("cook", "cashier", "janitor"); -- VIEW job IN ("cook", "cashier", "janitor")
+
+-- Wiled Cards: %, _  with the like operator = substitute for any number of characters
+SELECT *
+FROM employees
+WHERE first_name LIKE "S%"; -- VIEW first_name LIKE "S%" names that start with S
+
+SELECT *
+FROM employees
+WHERE hire_date LIKE "2023%"; -- VIEW hire_date LIKE "2023%" dates that start with 2023
+
+SELECT *
+FROM employees
+WHERE last_name LIKE "%r"; -- VIEW last_name LIKE "%R" names that end with R
+
+SELECT *
+FROM employees
+WHERE first_name LIKE "Sp%"; -- VIEW first_name LIKE "Sp%" names that start with Sp
+
+
+SELECT *
+FROM employees
+WHERE job LIKE "_ook"; -- VIEW job LIKE "_OOK" jobs that have ook in the middle
+
+SELECT *
+FROM employees
+WHERE hire_date LIKE "____-01-__"; -- VIEW hire_date LIKE "____-01-__" dates that have 01 in the middle
+
+SELECT *
+FROM employees
+WHERE hire_date LIKE "____-__-02"; -- VIEW hire_date LIKE "____-__-02" dates that have 02 at the end
+
+-- COMBINE WILD CARDS
+SELECT *
+FROM employees
+WHERE job LIKE "_a%"; -- VIEW job LIKE "_a%" jobs that have a in the second cahracter
+
+
+-- ORDER BY: ASC, DESC
+
+
+
+
+
