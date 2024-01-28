@@ -541,7 +541,121 @@ WHERE job LIKE "_a%"; -- VIEW job LIKE "_a%" jobs that have a in the second cahr
 
 
 -- ORDER BY: ASC, DESC
+SELECT * FROM employees
+ORDER BY last_name; -- ORDER BY first_name ASC
 
+SELECT * FROM employees
+ORDER BY last_name DESC; -- ORDER BY first_name DESC
+
+SELECT * FROM transactions
+ORDER BY amount, customer_id; -- ORDER BY amount ASC, customer_id ASC: if two amouts are the same then order by customer_id
+
+-- Limit clause: is used to limit the number of rows returned from the query
+SELECT * FROM employees
+LIMIT 3; -- LIMIT 3
+
+SELECT * FROM customers
+ORDER BY last_name LIMIT 1; -- ORDER BY last_name LIMIT 1
+
+-- LIMIT OFFSET: is used to skip rows before beginning to return rows from the query
+SELECT * FROM customers
+LIMIT 1, 1; -- LIMIT 1, 1: skip 1 row and return 1 row
+
+
+CREATE TABLE income (
+    income_name VARCHAR(25),
+    amount DECIMAL(5, 2)
+);
+
+CREATE TABLE expenses (
+    expense_name VARCHAR(25),
+    amount DECIMAL(5, 2)
+);
+
+ALTER TABLE income
+MODIFY COLUMN amount DECIMAL(10, 2); -- ALTER TABLE income column amount DECIMAL(10, 2)
+
+INSERT INTO income (income_name, amount)
+VALUES ("orders", 1000000.00),
+       ("merchandise", 50000.00),
+       ("services", 125000.00);
+
+ALTER TABLE expenses
+MODIFY COLUMN amount VARCHAR(20); -- ALTER TABLE expenses column amount DECIMAL(10, 2)
+
+INSERT INTO expenses (expense_name, amount)
+VALUES ("wages", -250000.00),
+       ("tax", -50000.00),
+       ("repairs", -1500.00);
+
+
+-- UNION: is used to combine the result-set of two or more SELECT statements
+SELECT * FROM income
+UNION
+SELECT * FROM expenses; -- UNION
+
+DROP TABLE income; -- DROP income TABLE
+DROP TABLE expenses; -- DROP expenses TABLE
+
+-- DOSNT WORK BC THEY HAVE A DIFFERENT NUMBER OF COLUMNS
+SELECT * FROM employees -- VIEW ALL THE CONTENT OF THE TABLE
+UNION
+SELECT * FROM customers; -- UNION
+
+SELECT first_name, last_name FROM employees -- VIEW ALL THE CONTENT OF THE TABLE
+UNION
+SELECT first_name, last_name FROM customers; -- UNION
+
+-- UNION ALL: shows all rows from both tables including duplicates
+SELECT first_name, last_name FROM employees -- VIEW ALL THE CONTENT OF THE TABLE
+UNION ALL
+SELECT first_name, last_name FROM customers;
+
+-- SELF JOIN: is used to combine rows from two or more tables based on a related column between them
+ALTER TABLE customers
+ADD COLUMN referal_id INT; -- ADD COLUMN referred_by INT
+
+UPDATE customers
+SET referal_id = 1
+WHERE customer_id = 2; -- UPDATE referal_id = 1 WHERE customer_id = 1
+
+UPDATE customers
+SET referal_id = 2
+WHERE customer_id = 3; -- UPDATE referal_id = 2 WHERE customer_id = 2;
+
+UPDATE customers
+SET referal_id = 2
+WHERE customer_id = 4; -- UPDATE referal_id = 2 WHERE customer_id = 4; 
+
+SELECT *
+FROM customers AS a
+INNER JOIN customers AS b
+ON a.referal_id = b.customer_id; -- SELF JOIN
+
+SELECT a.customer_id, a.first_name, a.last_name, CONCAT(b.first_name, " ", b.last_name) as "Referred By"
+FROM customers AS a
+INNER JOIN customers AS b
+ON a.referal_id = b.customer_id; -- SELF JOIN
+
+SELECT * FROM employees;
+
+ALTER TABLE employees
+ADD supervisor_id INT; -- ADD supervisor_id INT
+
+UPDATE employees
+SET supervisor_id = 1
+WHERE employee_id = 5; -- UPDATE supervisor_id = 1 WHERE employee_id = 2
+
+SELECT * 
+FROM employees AS a
+INNER JOIN employees AS b
+ON a.supervisor_id = b.employee_id; -- SELF JOIN
+
+SELECT a.first_name, a.last_name, 
+    concat(b.first_name, " ", b.last_name) AS "Supervisor"
+FROM employees AS a
+INNER JOIN employees AS b
+ON a.supervisor_id = b.employee_id; -- SELF JOIN
 
 
 
